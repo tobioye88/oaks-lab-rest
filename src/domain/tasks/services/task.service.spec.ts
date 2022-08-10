@@ -39,4 +39,14 @@ describe('TaskService', () => {
     const response = service.getTasks();
     expect(response.length).toBe(2);
   });
+
+  it('should update a task', () => {
+    const updatedTask = service.updateTask(
+      {
+        title: 'First Task Updated',
+      },
+      1,
+    );
+    expect(updatedTask.title).toBe('First Task Updated');
+  });
 });

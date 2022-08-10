@@ -35,4 +35,10 @@ export class TaskRepository {
     this.tasks.push(newTask);
     return newTask;
   }
+
+  updateTask(taskId: number, title: string): Task {
+    const task = this.getTasks().find((task) => task.id == taskId);
+    task.title = title;
+    return task;
+  }
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTaskDto } from '../dto/create-task.dto';
+import { UpdateTaskDto } from '../dto/update-task.dto';
 import { TaskRepository } from '../repositories/task.repository';
 import { Task } from '../schema/task.schema';
 
@@ -16,5 +17,9 @@ export class TaskService {
       createTaskDto.title,
       createTaskDto.steps,
     );
+  }
+
+  updateTask(updateTaskDto: UpdateTaskDto, taskId: number): Task {
+    return this.taskRepository.updateTask(taskId, updateTaskDto.title);
   }
 }

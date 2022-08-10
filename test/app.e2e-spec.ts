@@ -28,12 +28,22 @@ describe('AppController (e2e)', () => {
       .expect(200)
       .expect(testResponse);
   });
+
   it('/v1/tasks (POST)', async () => {
     const response = await request(app.getHttpServer())
       .post('/v1/tasks')
       .send(createTestPayload)
       .expect(201);
     expect(response.body.data.id).toBeDefined();
+  });
+
+  it('/v1/tasks (PATCH)', async () => {
+    const response = await request(app.getHttpServer())
+      .patch('/v1/tasks/1')
+      .send(patchTaskPayload)
+      .expect(200);
+
+    expect(response.body.data.title).toBe(patchTaskPayload.title);
   });
 });
 
@@ -73,4 +83,7 @@ const createTestPayload = {
       isDone: false,
     },
   ],
+};
+const patchTaskPayload = {
+  title: 'First Task Patched',
 };
