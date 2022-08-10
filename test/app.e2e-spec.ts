@@ -28,6 +28,13 @@ describe('AppController (e2e)', () => {
       .expect(200)
       .expect(testResponse);
   });
+  it('/v1/tasks (POST)', async () => {
+    const response = await request(app.getHttpServer())
+      .post('/v1/tasks')
+      .send(createTestPayload)
+      .expect(201);
+    expect(response.body.data.id).toBeDefined();
+  });
 });
 
 const testResponse = {
@@ -53,4 +60,17 @@ const testResponse = {
     },
   ],
   message: 'success',
+};
+const createTestPayload = {
+  title: 'Second Task',
+  steps: [
+    {
+      name: 'Second Task, First Step',
+      isDone: false,
+    },
+    {
+      name: 'Second Task, Second Step',
+      isDone: false,
+    },
+  ],
 };

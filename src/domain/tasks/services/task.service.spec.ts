@@ -21,4 +21,22 @@ describe('TaskService', () => {
     const response = service.getTasks();
     expect(response.length).toBe(1);
   });
+
+  it('should add a task', () => {
+    service.createTask({
+      title: 'Second Task',
+      steps: [
+        {
+          name: 'Second Task, First Step',
+          isDone: false,
+        },
+        {
+          name: 'Second Task, Second Step',
+          isDone: false,
+        },
+      ],
+    });
+    const response = service.getTasks();
+    expect(response.length).toBe(2);
+  });
 });

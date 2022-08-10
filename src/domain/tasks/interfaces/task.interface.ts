@@ -1,11 +1,11 @@
 export interface ITask {
-  id: number;
+  id?: number;
   title: string;
   isDone: boolean;
 }
 
 export interface ITaskStep {
-  id: number;
+  id?: number;
   name: string;
   isDone: boolean;
 }
