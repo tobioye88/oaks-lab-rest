@@ -8,6 +8,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   IResponseHelper,
   ResponseHelper,
@@ -19,23 +20,33 @@ import { UpdateTaskDto } from '../dto/update-task.dto';
 import { Task } from '../schema/task.schema';
 import { TaskService } from '../services/task.service';
 
+@ApiTags('Tasks')
 @Controller('v1/tasks')
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
   @Get('')
+  @ApiOperation({
+    summary: 'Get all Task',
+  })
   getTasks(): IResponseHelper<Task[]> {
     const tasks = this.taskService.getTasks();
     return ResponseHelper.success<Task[]>(tasks);
   }
 
   @Post('')
+  @ApiOperation({
+    summary: 'Create a new task',
+  })
   addTask(@Body() createTaskDto: CreateTaskDto): IResponseHelper<Task> {
     const task = this.taskService.createTask(createTaskDto);
     return ResponseHelper.success<Task>(task);
   }
 
   @Patch(':taskId')
+  @ApiOperation({
+    summary: 'Update task by id',
+  })
   updateTask(
     @Body() updateTaskDto: UpdateTaskDto,
     @Param('taskId') taskId: string,
@@ -45,6 +56,9 @@ export class TaskController {
   }
 
   @Put(':taskId/task-step')
+  @ApiOperation({
+    summary: 'Update task step to existing task',
+  })
   updateTaskStep(
     @Body() updateTaskStepDto: UpdateTaskStepDto,
     @Param('taskId') taskId: string,
@@ -57,6 +71,9 @@ export class TaskController {
   }
 
   @Post(':taskId/task-step')
+  @ApiOperation({
+    summary: 'Add a new task step to existing task',
+  })
   addTaskStep(
     @Body() addTaskStepDto: AddTaskStepDto,
     @Param('taskId') taskId: string,
@@ -66,12 +83,18 @@ export class TaskController {
   }
 
   @Delete(':taskId')
+  @ApiOperation({
+    summary: 'Delete task by id',
+  })
   deleteTask(@Param('taskId') taskId: string): IResponseHelper<Task> {
     const task = this.taskService.deleteTask(Number(taskId));
     return ResponseHelper.success<Task>(task);
   }
 
   @Delete(':taskId/task-step/:stepId')
+  @ApiOperation({
+    summary: 'Delete task step by id',
+  })
   deleteTaskStep(
     @Param('taskId') taskId: string,
     @Param('stepId') stepId: string,
