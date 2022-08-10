@@ -66,8 +66,20 @@ export class TaskController {
   }
 
   @Delete(':taskId')
-  deleteTaskStep(@Param('taskId') taskId: string): IResponseHelper<Task> {
+  deleteTask(@Param('taskId') taskId: string): IResponseHelper<Task> {
     const task = this.taskService.deleteTask(Number(taskId));
+    return ResponseHelper.success<Task>(task);
+  }
+
+  @Delete(':taskId/task-step/:stepId')
+  deleteTaskStep(
+    @Param('taskId') taskId: string,
+    @Param('stepId') stepId: string,
+  ): IResponseHelper<Task> {
+    const task = this.taskService.deleteTaskStep(
+      Number(taskId),
+      Number(stepId),
+    );
     return ResponseHelper.success<Task>(task);
   }
 }

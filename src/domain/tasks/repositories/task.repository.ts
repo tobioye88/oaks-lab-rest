@@ -73,4 +73,15 @@ export class TaskRepository {
     this.tasks.splice(deleteIndex);
     return task;
   }
+
+  deleteTaskStep(taskId: number, stepId: number) {
+    const deleteIndex = this.tasks.findIndex((task) => task.id === taskId);
+    if (deleteIndex == -1) {
+      throw new RepositoryException('Task not found', 404);
+    }
+    const task = this.tasks[deleteIndex];
+    const stepIndex = task.steps.findIndex((step) => step.id == stepId);
+    task.steps.splice(stepIndex);
+    return task;
+  }
 }

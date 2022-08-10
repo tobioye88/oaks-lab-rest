@@ -55,4 +55,15 @@ export class TaskService {
       throw new HttpException(error.message, error.statusCode);
     }
   }
+
+  deleteTaskStep(taskId: number, stepId: number): Task {
+    try {
+      return this.taskRepository.deleteTaskStep(taskId, stepId);
+    } catch (error) {
+      if (typeof error === RepositoryException.name) {
+        throw new HttpException(error.message, error.statusCode);
+      }
+      throw new HttpException(error.message, error.statusCode);
+    }
+  }
 }

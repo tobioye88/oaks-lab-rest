@@ -71,6 +71,12 @@ describe('AppController (e2e)', () => {
       .expect(200);
     expect(response.body.data).toEqual(testResponse.data[0]);
   });
+  it('/v1/tasks/:taskId/task-step/:stepId (DELETE)', async () => {
+    const response = await request(app.getHttpServer())
+      .delete('/v1/tasks/1/task-step/2')
+      .expect(200);
+    expect(response.body.data).toEqual(expectTaskStepDeletedPayload);
+  });
 });
 
 const testResponse = {
@@ -121,4 +127,17 @@ const putTaskStepPayload = {
 const addTaskStepPayload = {
   name: 'New Task',
   isDone: false,
+};
+const expectTaskStepDeletedPayload = {
+  id: 1,
+  title: 'First Title',
+  isDone: true,
+  steps: [
+    {
+      id: 1,
+      taskId: 1,
+      name: 'First Step',
+      isDone: true,
+    },
+  ],
 };
