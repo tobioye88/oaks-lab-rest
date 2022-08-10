@@ -1,3 +1,4 @@
+import { RepositoryException } from '../../../exceptions/all.exception';
 import { ITaskStep } from '../interfaces/task.interface';
 import { TaskStep } from '../schema/task-step.schema';
 import { Task } from '../schema/task.schema';
@@ -60,7 +61,16 @@ export class TaskRepository {
     const task = this.getTasks().find((task) => task.id === taskId);
     newStep = { id: Math.round(Math.random() * 100), ...newStep, taskId };
     task.steps.push(newStep);
+    return task;
+  }
 
+  deleteTask(taskId: number) {
+    const deleteIndex = this.tasks.findIndex((task) => task.id === taskId);
+    if (deleteIndex == -1) {
+      throw new RepositoryException('Task not found', 404);
+    }
+    const task = this.tasks[deleteIndex];
+    this.tasks.splice(deleteIndex);
     return task;
   }
 }

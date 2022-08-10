@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Patch, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Put,
+} from '@nestjs/common';
 import {
   IResponseHelper,
   ResponseHelper,
@@ -53,6 +62,12 @@ export class TaskController {
     @Param('taskId') taskId: string,
   ): IResponseHelper<Task> {
     const task = this.taskService.addTaskStep(addTaskStepDto, Number(taskId));
+    return ResponseHelper.success<Task>(task);
+  }
+
+  @Delete(':taskId')
+  deleteTaskStep(@Param('taskId') taskId: string): IResponseHelper<Task> {
+    const task = this.taskService.deleteTask(Number(taskId));
     return ResponseHelper.success<Task>(task);
   }
 }

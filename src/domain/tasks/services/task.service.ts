@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
+import { RepositoryException } from '../../../exceptions/all.exception';
 import { AddTaskStepDto } from '../dto/add-task-step.dto';
 import { CreateTaskDto } from '../dto/create-task.dto';
 import { UpdateTaskStepDto } from '../dto/update-task-step.dto';
@@ -42,5 +43,16 @@ export class TaskService {
     } as ITaskStep;
     task = this.taskRepository.addTaskStep(step, taskId);
     return task;
+  }
+
+  deleteTask(taskId: number): Task {
+    try {
+      return this.taskRepository.deleteTask(taskId);
+    } catch (error) {
+      if (typeof error === RepositoryException.name) {
+        throw new HttpException(error.message, error.statusCode);
+      }
+      throw new HttpException(error.message, error.statusCode);
+    }
   }
 }

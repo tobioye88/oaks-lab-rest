@@ -1,4 +1,6 @@
+import { HttpException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import { RepositoryException } from '../../../exceptions/all.exception';
 import { TaskRepository } from '../repositories/task.repository';
 import { TaskService } from './task.service';
 
@@ -69,5 +71,22 @@ describe('TaskService', () => {
     expect(updatedTask.steps[updatedTask.steps.length - 1].name).toBe(
       addTaskStepPayload.name,
     );
+  });
+
+  it('should delete a new task step to task', () => {
+    service.deleteTask(1);
+    const tasks = service.getTasks();
+    expect(tasks.length).toBe(0);
+  });
+
+  it('should throw an exception when deleting task that does not exist', () => {
+    expect.assertions(1);
+    service.deleteTask(1);
+    try {
+      service.deleteTask(1);
+    } catch (e) {
+      console.log(e);
+      expect(e.message).toBe('Task not found');
+    }
   });
 });

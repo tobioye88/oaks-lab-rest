@@ -60,10 +60,16 @@ describe('AppController (e2e)', () => {
       .post('/v1/tasks/1/task-step')
       .send(addTaskStepPayload)
       .expect(201);
-    console.log(response.body.data.step);
     const expectedLastStep =
       response.body.data.steps[response.body.data.steps.length - 1];
     expect(expectedLastStep.name).toBe(addTaskStepPayload.name);
+  });
+
+  it('/v1/tasks/:id (DELETE)', async () => {
+    const response = await request(app.getHttpServer())
+      .delete('/v1/tasks/1')
+      .expect(200);
+    expect(response.body.data).toEqual(testResponse.data[0]);
   });
 });
 
