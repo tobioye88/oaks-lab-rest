@@ -47,12 +47,20 @@ export class TaskRepository {
     return this.getTasks().find((task) => task.id === taskId);
   }
 
-  updateTaskStep(newStep: TaskStep, taskId): Task {
+  updateTaskStep(newStep: TaskStep, taskId: number): Task {
     const task = this.getTasks().find((task) => task.id === taskId);
     const step = task.steps.find((step) => (step.id = newStep.id));
     step.name = newStep.name;
     step.isDone = newStep.isDone;
     task.isDone = task.steps.every((step) => step.isDone);
+    return task;
+  }
+
+  addTaskStep(newStep: ITaskStep, taskId: number): Task {
+    const task = this.getTasks().find((task) => task.id === taskId);
+    newStep = { id: Math.round(Math.random() * 100), ...newStep, taskId };
+    task.steps.push(newStep);
+
     return task;
   }
 }

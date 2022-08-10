@@ -6,6 +6,7 @@ export interface ITask {
 
 export interface ITaskStep {
   id?: number;
+  taskId?: number;
   name: string;
   isDone: boolean;
 }

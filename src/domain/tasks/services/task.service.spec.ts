@@ -59,4 +59,15 @@ describe('TaskService', () => {
     const updatedTask = service.updateTaskStep(updatePayload, 1);
     expect(updatedTask.steps[0].name).toBe(updatePayload.name);
   });
+
+  it('should add a new task step to task', () => {
+    const addTaskStepPayload = {
+      name: 'Last Task Step',
+      isDone: false,
+    };
+    const updatedTask = service.addTaskStep(addTaskStepPayload, 1);
+    expect(updatedTask.steps[updatedTask.steps.length - 1].name).toBe(
+      addTaskStepPayload.name,
+    );
+  });
 });

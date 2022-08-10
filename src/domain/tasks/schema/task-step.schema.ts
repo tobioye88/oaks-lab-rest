@@ -4,10 +4,10 @@ import { Task } from './task.schema';
 //@Entity('task_steps')
 export class TaskStep implements ITaskStep {
   //@PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
 
   // @Column()
-  taskId: number;
+  taskId?: number;
 
   // @Column()
   name: string;

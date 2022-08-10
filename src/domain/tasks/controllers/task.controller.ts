@@ -3,6 +3,7 @@ import {
   IResponseHelper,
   ResponseHelper,
 } from '../../../helpers/response.helper';
+import { AddTaskStepDto } from '../dto/add-task-step.dto';
 import { CreateTaskDto } from '../dto/create-task.dto';
 import { UpdateTaskStepDto } from '../dto/update-task-step.dto';
 import { UpdateTaskDto } from '../dto/update-task.dto';
@@ -43,6 +44,15 @@ export class TaskController {
       updateTaskStepDto,
       Number(taskId),
     );
+    return ResponseHelper.success<Task>(task);
+  }
+
+  @Post(':taskId/task-step')
+  addTaskStep(
+    @Body() addTaskStepDto: AddTaskStepDto,
+    @Param('taskId') taskId: string,
+  ): IResponseHelper<Task> {
+    const task = this.taskService.addTaskStep(addTaskStepDto, Number(taskId));
     return ResponseHelper.success<Task>(task);
   }
 }

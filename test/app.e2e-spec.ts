@@ -54,6 +54,17 @@ describe('AppController (e2e)', () => {
     console.log(response.body.data.step);
     expect(response.body.data.steps[0].name).toBe(putTaskStepPayload.name);
   });
+
+  it('/v1/tasks/:id/task-step (POST)', async () => {
+    const response = await request(app.getHttpServer())
+      .post('/v1/tasks/1/task-step')
+      .send(addTaskStepPayload)
+      .expect(201);
+    console.log(response.body.data.step);
+    const expectedLastStep =
+      response.body.data.steps[response.body.data.steps.length - 1];
+    expect(expectedLastStep.name).toBe(addTaskStepPayload.name);
+  });
 });
 
 const testResponse = {
@@ -99,5 +110,9 @@ const patchTaskPayload = {
 const putTaskStepPayload = {
   id: 1,
   name: 'Second Task, First Step --updated',
+  isDone: false,
+};
+const addTaskStepPayload = {
+  name: 'New Task',
   isDone: false,
 };

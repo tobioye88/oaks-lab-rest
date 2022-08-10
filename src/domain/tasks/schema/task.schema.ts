@@ -4,7 +4,7 @@ import { TaskStep } from './task-step.schema';
 //@Entity('task')
 export class Task implements ITask {
   //@PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
 
   // @Column()
   title: string;
