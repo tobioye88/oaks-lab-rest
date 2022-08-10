@@ -1,4 +1,5 @@
 import { ITaskStep } from '../interfaces/task.interface';
+import { TaskStep } from '../schema/task-step.schema';
 import { Task } from '../schema/task.schema';
 
 export class TaskRepository {
@@ -15,7 +16,7 @@ export class TaskRepository {
           isDone: true,
         },
         {
-          id: 1,
+          id: 2,
           taskId: 1,
           name: 'Second Step',
           isDone: true,
@@ -37,8 +38,21 @@ export class TaskRepository {
   }
 
   updateTask(taskId: number, title: string): Task {
-    const task = this.getTasks().find((task) => task.id == taskId);
+    const task = this.getTasks().find((task) => task.id === taskId);
     task.title = title;
+    return task;
+  }
+
+  getTaskById(taskId: number): Task {
+    return this.getTasks().find((task) => task.id === taskId);
+  }
+
+  updateTaskStep(newStep: TaskStep, taskId): Task {
+    const task = this.getTasks().find((task) => task.id === taskId);
+    const step = task.steps.find((step) => (step.id = newStep.id));
+    step.name = newStep.name;
+    step.isDone = newStep.isDone;
+    task.isDone = task.steps.every((step) => step.isDone);
     return task;
   }
 }

@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Put } from '@nestjs/common';
 import {
   IResponseHelper,
   ResponseHelper,
 } from '../../../helpers/response.helper';
 import { CreateTaskDto } from '../dto/create-task.dto';
+import { UpdateTaskStepDto } from '../dto/update-task-step.dto';
 import { UpdateTaskDto } from '../dto/update-task.dto';
 import { Task } from '../schema/task.schema';
 import { TaskService } from '../services/task.service';
@@ -30,6 +31,18 @@ export class TaskController {
     @Param('taskId') taskId: string,
   ): IResponseHelper<Task> {
     const task = this.taskService.updateTask(updateTaskDto, Number(taskId));
+    return ResponseHelper.success<Task>(task);
+  }
+
+  @Put(':taskId/task-step')
+  updateTaskStep(
+    @Body() updateTaskStepDto: UpdateTaskStepDto,
+    @Param('taskId') taskId: string,
+  ): IResponseHelper<Task> {
+    const task = this.taskService.updateTaskStep(
+      updateTaskStepDto,
+      Number(taskId),
+    );
     return ResponseHelper.success<Task>(task);
   }
 }

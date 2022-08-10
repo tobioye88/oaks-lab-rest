@@ -49,4 +49,14 @@ describe('TaskService', () => {
     );
     expect(updatedTask.title).toBe('First Task Updated');
   });
+
+  it('should update a task step', () => {
+    const updatePayload = {
+      id: 1,
+      name: 'First Task Step --Updated',
+      isDone: false,
+    };
+    const updatedTask = service.updateTaskStep(updatePayload, 1);
+    expect(updatedTask.steps[0].name).toBe(updatePayload.name);
+  });
 });

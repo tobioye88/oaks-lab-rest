@@ -37,13 +37,22 @@ describe('AppController (e2e)', () => {
     expect(response.body.data.id).toBeDefined();
   });
 
-  it('/v1/tasks (PATCH)', async () => {
+  it('/v1/tasks/:id (PATCH)', async () => {
     const response = await request(app.getHttpServer())
       .patch('/v1/tasks/1')
       .send(patchTaskPayload)
       .expect(200);
 
     expect(response.body.data.title).toBe(patchTaskPayload.title);
+  });
+
+  it('/v1/tasks/:id/task-step (PUT)', async () => {
+    const response = await request(app.getHttpServer())
+      .put('/v1/tasks/1/task-step')
+      .send(putTaskStepPayload)
+      .expect(200);
+    console.log(response.body.data.step);
+    expect(response.body.data.steps[0].name).toBe(putTaskStepPayload.name);
   });
 });
 
@@ -61,7 +70,7 @@ const testResponse = {
           isDone: true,
         },
         {
-          id: 1,
+          id: 2,
           taskId: 1,
           name: 'Second Step',
           isDone: true,
@@ -86,4 +95,9 @@ const createTestPayload = {
 };
 const patchTaskPayload = {
   title: 'First Task Patched',
+};
+const putTaskStepPayload = {
+  id: 1,
+  name: 'Second Task, First Step --updated',
+  isDone: false,
 };
